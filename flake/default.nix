@@ -12,7 +12,7 @@
 {
   imports = [ inputs.flake-file.flakeModules.default ];
 
-  systems = inputs.nixpkgs.lib.systems.flakeExposed;
+  systems = [ "x86_64-linux" ];
 
   flake-file.inputs = import ./inputs;
   flake-file.outputs = "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ./flake";
