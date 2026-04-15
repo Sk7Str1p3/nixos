@@ -10,7 +10,10 @@
 */
 { inputs, ... }:
 {
-  imports = [ inputs.flake-file.flakeModules.default ];
+  imports = [
+    inputs.flake-file.flakeModules.default
+    ../devShells
+  ];
 
   systems = [ "x86_64-linux" ];
 
