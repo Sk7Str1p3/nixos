@@ -3,7 +3,7 @@
 /**
   Entry point of NixOS configuration
 
-  - Defines external sources and locking their commit, which gives up __purity__.
+  - Defines external sources and locking their commit, which gives us __purity__.
   - Declares ready-to-use configurations (e.g. development shells, packages, etc.)
 
   Essentially, `flake.nix` is like `Cargo.toml` in Rust or `package.json` in Node.js, but for an entire operating system.
