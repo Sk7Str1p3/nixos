@@ -116,7 +116,8 @@ stdenvNoCC.mkDerivation {
   '';
 
   postBuild = ''
-    mkdir -p $out
+    mkdir -p $out $out/theme
     cp -r book/* $out
+    cp theme/catppuccin.css $out/theme
   '';
 }
