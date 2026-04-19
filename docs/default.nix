@@ -18,12 +18,14 @@
   generator uses orderKey of type "{num}|{mdPath}" and derives indentation from path's depth,
   so chapters have proper order.
 
-  run `nix build .#docBuild` to build documentation
+  run `nix build .#docBuild` to build documentation.
+  run `nix run .#docServe` to serve documentation site
 */
 {
   perSystem =
     { pkgs, ... }:
     rec {
       packages.docBuild = pkgs.callPackage ../docs/docgen.nix { };
+      packages.docServe = pkgs.callPackage ../docs/server.nix { doc = packages.docBuild; };
     };
 }

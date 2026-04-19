@@ -17,6 +17,7 @@ stdenvNoCC.mkDerivation {
         ".*flake\\.nix$"
 
         "docs/docgen.nix"
+        "docs/server.nix"
       ];
 
       shouldExclude = relPath: lib.any (pattern: builtins.match pattern relPath != null) excluded;
