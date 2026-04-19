@@ -1,0 +1,5 @@
+[book]
+title = "SkyOS Documentation"
+authors = ["Sk7Str1p3"]
+description = "Documentation for Sk7Str1p3's custom NixOS configuration"
+language = "en"

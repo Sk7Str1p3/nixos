@@ -13,6 +13,7 @@
   imports = [
     inputs.flake-file.flakeModules.default
     ../devShells
+    ../docs
   ];
 
   systems = [ "x86_64-linux" ];
