@@ -21,3 +21,4 @@
   flake-file.inputs = import ./inputs;
   flake-file.outputs = "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ./flake";
   flake-file.description = "A very basic flake";
+}
