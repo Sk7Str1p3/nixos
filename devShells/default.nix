@@ -3,7 +3,7 @@
 /**
   Isolated environments for convenient software development.
   Provides shells for all languages I use:
-  - ~~❄️  [Nix]~~  (not yet)
+  - ❄️  [Nix](./devShells/nix.md)
   - ~~🦀 Rust~~  (not yet)
   - ~~🐍 Python~~  (not yet)
 
