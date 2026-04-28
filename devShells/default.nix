@@ -53,20 +53,32 @@ in
     }:
 
     {
-      devShells = builtins.listToAttrs (
-        map (name: {
-          inherit name;
-          value =
+      devShells =
+        builtins.listToAttrs (
+          map (name: {
+            inherit name;
+            value =
+              let
+                cfg = import ./${name}/default.nix pkgs;
+              in
+              pkgs.mkShell {
+                inherit name;
+                packages = map (p: p) (builtins.attrValues cfg.packages);
+                shellHook = cfg.shellHook or "";
+              };
+          }) dirs
+        )
+        // {
+          nixos =
             let
-              cfg = import ./${name}/default.nix pkgs;
+              cfg = import ./nixos.nix pkgs;
             in
             pkgs.mkShell {
-              inherit name;
+              name = "SkyOS";
               packages = map (p: p) (builtins.attrValues cfg.packages);
               shellHook = cfg.shellHook or "";
             };
-        }) dirs 
-      );
+        };
     };
   flake.templates = builtins.listToAttrs (
     map (name: {
