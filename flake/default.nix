@@ -14,6 +14,7 @@
     inputs.flake-file.flakeModules.default
     ../devShells
     ../docs
+    ../hosts
   ];
 
   systems = [ "x86_64-linux" ];

@@ -54,6 +54,7 @@ stdenvNoCC.mkDerivation {
               docs = 0;
               flake = 1;
               devShells = 2;
+              hosts = 3;
             };
             order = orderMap.${lib.head (lib.splitString "/" relPath)};
 
