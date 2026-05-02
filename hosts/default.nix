@@ -36,6 +36,7 @@
             };
             modules = with inputs; [
               ./${host}/configuration.nix
+              sops-nix.nixosModules.sops
               ./${host}/hardware.nix
             ];
           };

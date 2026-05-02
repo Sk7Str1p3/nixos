@@ -27,4 +27,11 @@
   flake-file = {
     url = "github:vic/flake-file";
   };
+
+  /**
+    Runtime secrets management.
+  */
+  sops-nix = {
+    url = "github:mic92/sops-nix";
+  };
 }
