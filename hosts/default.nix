@@ -38,6 +38,7 @@
               ./${host}/configuration.nix
               sops-nix.nixosModules.sops
               ./${host}/hardware.nix
+              ../users
             ];
           };
         }
