@@ -16,8 +16,7 @@ stdenvNoCC.mkDerivation {
       excluded = [
         ".*flake\\.nix$"
 
-        "docs/docgen.nix"
-        "docs/server.nix"
+        "^docs/.*"
       ];
 
       shouldExclude = relPath: lib.any (pattern: builtins.match pattern relPath != null) excluded;
@@ -93,7 +92,13 @@ stdenvNoCC.mkDerivation {
 
       summaryContent =
         "# Summary\n\n"
-        + "[Introduction](README.md)\n"
+        + ''
+          [Introduction](README.md)
+
+          - [Features]()
+            - [Documentation generation](docGen.md)
+
+        ''
         + builtins.concatStringsSep "\n" (map (c: c.summaryLine) chapters)
         + "\n";
 
