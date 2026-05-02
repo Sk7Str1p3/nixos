@@ -1,6 +1,8 @@
 keys:
   - &eval age180qx2rwyelak4wtdljcy9eqxkskfcfk4fvq26nuqqz8rtjdyyyzqlr8dt8
 
+  - &Sk7Str1p3 age17669qkln533e3plts9f3sfs3u4ra8c92ddcx2yk5fngzm4u0u5ls530vnl
+
 creation_rules:
   - path_regex: 'users/[^/]+/about\.json$'
     encrypted_regex: '^realName$'
@@ -9,3 +11,6 @@ creation_rules:
   - path_regex: 'users/[^/]+/face\.png$'
     age:
       - *eval
+  - path_regex: '^users/Sk7Str1p3/.*\.(enc|yaml)$'
+    age:
+      - *Sk7Str1p3
