@@ -1,0 +1,11 @@
+keys:
+  - &eval age180qx2rwyelak4wtdljcy9eqxkskfcfk4fvq26nuqqz8rtjdyyyzqlr8dt8
+
+creation_rules:
+  - path_regex: 'users/[^/]+/about\.json$'
+    encrypted_regex: '^realName$'
+    age:
+      - *eval
+  - path_regex: 'users/[^/]+/face\.png$'
+    age:
+      - *eval
