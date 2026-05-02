@@ -96,6 +96,7 @@ stdenvNoCC.mkDerivation {
           [Introduction](README.md)
 
           - [Features]()
+            - [Evaluation time secrets](evalSecrets.md)
             - [Documentation generation](docGen.md)
 
         ''
