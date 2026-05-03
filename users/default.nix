@@ -54,4 +54,19 @@
         };
     }) cfg.usersList
   );
+
+  # Configurure home-manager
+  home-manager = {
+    backupFileExtension = "backup-${builtins.currentTime}";
+
+    users = lib.mkMerge (
+      map (user: {
+        ${user} = {
+          imports = [
+            ./${user}/modules
+          ];
+        }
+      }) cfg.usersList
+    )
+  };
 }

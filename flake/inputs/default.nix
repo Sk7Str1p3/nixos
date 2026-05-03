@@ -14,4 +14,4 @@
   > Then accessing inputs in repl, remove {class}, so instead of calling e.g. `flake.inputs.core.nixpkgs`,
   > you call `flake.inputs.nixpkgs`.
 */
-import ./core.nix
+(import ./core.nix) // (import ./home.nix)
