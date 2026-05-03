@@ -47,11 +47,11 @@
         in
         {
           description = cfg.realName or user;
-          password = config.sops.secrets."${user}/userPassword";
+          hashedPasswordFile = config.sops.secrets."${user}/userPassword".path;
           isNormalUser = true;
           shell = pkgs."${cfg.shell}";
           extraGroups = cfg.extraGroups or [ ];
         };
-    }) cfg.users
+    }) cfg.usersList
   );
 }
