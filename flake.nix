@@ -11,5 +11,6 @@
     home-manager.url = "github:nix-community/home-manager";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     sops-nix.url = "github:mic92/sops-nix";
+    stylix.url = "github:nix-community/stylix";
   };
 }
