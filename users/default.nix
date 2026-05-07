@@ -67,7 +67,7 @@
 
   # Configurure home-manager
   home-manager = {
-    backupFileExtension = "backup-${builtins.currentTime}";
+    backupFileExtension = "backup-${builtins.toString inputs.self.lastModified}";
 
     users = lib.mkMerge (
       map (user: {
