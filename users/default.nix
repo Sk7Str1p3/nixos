@@ -24,6 +24,8 @@
       userPassword: {hash}
     ```
     where `{hash}` is result of `echo {your password} | mkpasswd -s`
+
+    Wallpapers can be `png` or `jpg` format, and must be stored at `users/{user}/wallpaper.{ext}`
 */
 {
   lib,
@@ -74,10 +76,21 @@
         ${user} = {
           imports = [
             ./${user}/modules
+
+            inputs.stylix.homeModules.stylix
           ];
-        }
+          stylix = {
+            enable = true;
+            image =
+              if builtins.pathExists ./${user}/wallpaper.png then
+                ./${user}/wallpaper.png
+              else
+                ./${user}/wallpaper.jpg;
+          };
+          home.stateVersion = config.system.stateVersion;
+        };
       }) cfg.usersList
-    )
+    );
   };
 
   # Configure DM and users' default sessions
