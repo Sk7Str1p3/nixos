@@ -113,14 +113,6 @@
     "nix-command"
   ];
 
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    systemd.setPath.enable = true;
-  };
   services.userborn.enable = true;
 
   # Configure keymap in X11

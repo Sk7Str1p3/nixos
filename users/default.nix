@@ -7,6 +7,11 @@
   - `realName`: User's real name  (optionally)
   - `extraGroups`: groups (optionally)
   - `shell`: User's shell
+  - `session`: User's default graphical session (optionally)
+
+  Session must have format of "{type}:{session}" where type is one of `co` (short for "compositor") and `de` (short for "desktop environment").
+  This `type` is actually important, because it depends where nix will search corresponding option for enabling your session.
+  If `co`, it will search it in `programs.*`, and if `de`, in `services.desktopManager.*`
 
   User's face (optionally)
     - if any, should be located at users/{user}/face.png
@@ -69,4 +74,52 @@
       }) cfg.usersList
     )
   };
+
+  # Configure DM and users' default sessions
+  services.displayManager.gdm.enable = true;
+  systemd.tmpfiles.settings."20-gdm-default-session" = lib.mkMerge (
+    map (user: {
+      "/run/tmpfiles/var/lib/AccountsService/users/${user}".f = {
+        argument = "${lib.generators.toINI { } {
+          User = {
+            Session = builtins.toString (
+              builtins.tail (
+                lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json)).session
+              )
+            );
+            SystemAccount = false;
+          }
+          // (
+            let
+              pic = ./${user}/face.png;
+            in
+            if builtins.pathExists pic then { Icon = "${pic}"; } else { }
+          );
+        }}";
+      };
+      "/var/lib/AccountsService/users/${user}"."L+" = {
+        argument = "/run/tmpfiles/var/lib/AccountsService/users/${user}";
+      };
+    }) cfg.usersList
+  );
 }
+// (lib.foldl (acc: elem: acc // elem) { } (
+  map (
+    user:
+    let
+      __session = lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json))
+      .session;
+      sessionType = (builtins.head __session);
+      session = builtins.toString (builtins.tail __session);
+    in
+    assert sessionType == "co" || sessionType == "de";
+    if sessionType == "co" then
+      {
+        programs.${session}.enable = true;
+      }
+    else if sessionType == "de" then
+      { services.desktopManager.${session}.enable = true; }
+    else
+      { }
+  ) cfg.usersList
+))
