@@ -30,9 +30,14 @@
   pkgs,
   cfg,
   config,
+  inputs, 
   ...
 }:
 {
+  imports = [
+    inputs.home-manager.nixosModules.default
+  ];
+
   # Configure users' passwords as sops secret.
   sops.secrets = lib.mkMerge (
     map (user: {

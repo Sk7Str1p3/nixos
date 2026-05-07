@@ -32,7 +32,7 @@
         {
           ${host} = inputs.nixpkgs.lib.nixosSystem {
             specialArgs = {
-              inherit cfg;
+              inherit cfg inputs;
             };
             modules = with inputs; [
               ./${host}/configuration.nix
