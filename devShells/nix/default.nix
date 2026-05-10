@@ -10,6 +10,10 @@ pkgs: rec {
   */
   packages.nixd = pkgs.nixd;
   /**
+    another one nix language server
+  */
+  packages.nil = pkgs.nil;
+  /**
     nix formatter
   */
   packages.nixfmt = pkgs.nixfmt;
