@@ -17,4 +17,12 @@
   stylix = {
     url = "github:nix-community/stylix";
   };
+
+  /**
+    Flake for configuring Niri.
+    Used because home-manager does not support Niri yet.
+  */
+  niri = {
+    url = "github:sodiboo/niri-flake";
+  };
 }
