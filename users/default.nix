@@ -32,7 +32,7 @@
   pkgs,
   cfg,
   config,
-  inputs, 
+  inputs,
   ...
 }:
 {
@@ -69,7 +69,7 @@
 
   # Configurure home-manager
   home-manager = {
-    backupFileExtension = "backup-${builtins.toString inputs.self.lastModified}";
+    backupFileExtension = "backup-${toString inputs.self.lastModified}";
 
     users = lib.mkMerge (
       map (user: {
@@ -100,7 +100,7 @@
       "/run/tmpfiles/var/lib/AccountsService/users/${user}".f = {
         argument = "${lib.generators.toINI { } {
           User = {
-            Session = builtins.toString (
+            Session = toString (
               builtins.tail (
                 lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json)).session
               )
@@ -128,7 +128,7 @@
       __session = lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json))
       .session;
       sessionType = (builtins.head __session);
-      session = builtins.toString (builtins.tail __session);
+      session = toString (builtins.tail __session);
     in
     assert sessionType == "co" || sessionType == "de";
     if sessionType == "co" then

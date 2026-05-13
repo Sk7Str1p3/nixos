@@ -85,7 +85,7 @@ stdenvNoCC.mkDerivation {
                 --file "${file}" > "src/${mdPath}"
             '';
             summaryLine = "${indent}- [${title}](${mdPath})";
-            sortKey = builtins.toString order + mdPath;
+            sortKey = toString order + mdPath;
           }
         ) nixFiles
       );
@@ -113,7 +113,7 @@ stdenvNoCC.mkDerivation {
       ${nixdocScripts}
 
       cat > src/SUMMARY.md <<EOF
-      ${summaryContent} 
+      ${summaryContent}
       EOF
     '';
 

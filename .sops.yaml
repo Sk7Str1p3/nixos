@@ -6,7 +6,7 @@ keys:
 
 creation_rules:
   - path_regex: 'users/[^/]+/about\.json$'
-    encrypted_regex: '^realName$'
+    encrypted_regex: "^realName$"
     age:
       - *eval
   - path_regex: 'users/[^/]+/face\.png$'

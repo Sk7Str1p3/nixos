@@ -4,7 +4,7 @@
   Many nix projects have their own devshell,
   but they don't install most necessary tools.
 */
-pkgs: rec {
+pkgs: {
   /**
     nix language server
   */
