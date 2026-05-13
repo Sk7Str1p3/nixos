@@ -8,7 +8,7 @@
 
   Essentially, `flake.nix` is like `Cargo.toml` in Rust or `package.json` in Node.js, but for an entire operating system.
 */
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     inputs.flake-file.flakeModules.default
@@ -19,7 +19,7 @@
 
   systems = [ "x86_64-linux" ];
 
-  flake-file.inputs = import ./inputs;
+  flake-file.inputs = import ./inputs { inherit lib; };
   flake-file.outputs = "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ./flake";
   flake-file.description = "A very basic flake";
 }
