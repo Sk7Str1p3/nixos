@@ -61,11 +61,14 @@ in
               let
                 cfg = import ./${name}/default.nix pkgs;
               in
-              pkgs.mkShell {
-                inherit name;
-                packages = map (p: p) (builtins.attrValues cfg.packages);
-                shellHook = cfg.shellHook or "";
-              };
+              pkgs.mkShell (
+                {
+                  inherit name;
+                  packages = map (p: p) (builtins.attrValues cfg.packages);
+                  shellHook = cfg.shellHook or "";
+                }
+                // (cfg.env or { })
+              );
           }) dirs
         )
         // {
