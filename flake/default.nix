@@ -12,6 +12,7 @@
 {
   imports = [
     inputs.flake-file.flakeModules.default
+    inputs.flake-file.flakeModules.allfollow
     ../devShells
     ../docs
     ../hosts
@@ -27,4 +28,6 @@
     # This file is not supposed to be edited manually.
     # Run `nix run .#write-flake` to regenerate it
   '';
+
+  flake-file.prune-lock.enable = true;
 }
