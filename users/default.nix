@@ -35,25 +35,26 @@
   inputs,
   ...
 }:
-{
-  imports = [
-    inputs.home-manager.nixosModules.default
-  ];
+lib.foldl' (acc: obj: lib.recursiveUpdate acc obj) { } (
+  lib.lists.flatten [
+    # Import required modules
+    {
+      imports = [
+        inputs.home-manager.nixosModules.default
+      ];
+    }
 
-  # Configure users' passwords as sops secret.
-  sops.secrets = lib.mkMerge (
-    map (user: {
-      "${user}/userPassword" = {
+    # Configure users' passwords as sops secret.
+    (map (user: {
+      sops.secrets."${user}/userPassword" = {
         sopsFile = ./${user}/password.yaml;
         neededForUsers = true;
       };
-    }) cfg.usersList
-  );
+    }) cfg.usersList)
 
-  # Configure users
-  users.users = lib.mkMerge (
-    map (user: {
-      ${user} =
+    # Configure users
+    (map (user: {
+      users.users.${user} =
         let
           cfg = builtins.fromJSON (builtins.readFile ./${user}/about.json);
         in
@@ -64,80 +65,79 @@
           shell = pkgs."${cfg.shell}";
           extraGroups = cfg.extraGroups or [ ];
         };
-    }) cfg.usersList
-  );
+    }) cfg.usersList)
 
-  # Configurure home-manager
-  home-manager = {
-    backupFileExtension = "backup-${toString inputs.self.lastModified}";
+    # Configurure home-manager
+    {
+      home-manager = {
+        backupFileExtension = "backup-${toString inputs.self.lastModified}";
+      };
+    }
+    (map (user: {
+      home-manager.users.${user} = {
+        imports = [
+          ./${user}/modules
 
-    users = lib.mkMerge (
-      map (user: {
-        ${user} = {
-          imports = [
-            ./${user}/modules
-
-            inputs.stylix.homeModules.stylix
-          ];
-          stylix = {
-            enable = true;
-            image =
-              if builtins.pathExists ./${user}/wallpaper.png then
-                ./${user}/wallpaper.png
-              else
-                ./${user}/wallpaper.jpg;
-          };
-          home.stateVersion = config.system.stateVersion;
+          inputs.stylix.homeModules.stylix
+        ];
+        stylix = {
+          enable = true;
+          image =
+            if builtins.pathExists ./${user}/wallpaper.png then
+              ./${user}/wallpaper.png
+            else
+              ./${user}/wallpaper.jpg;
         };
-      }) cfg.usersList
-    );
-  };
+        home.stateVersion = config.system.stateVersion;
+      };
+    }) cfg.usersList)
 
-  # Configure DM and users' default sessions
-  services.displayManager.gdm.enable = true;
-  systemd.tmpfiles.settings."20-gdm-default-session" = lib.mkMerge (
-    map (user: {
-      "/run/tmpfiles/var/lib/AccountsService/users/${user}".f = {
-        argument = "${lib.generators.toINI { } {
-          User = {
-            Session = toString (
-              builtins.tail (
-                lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json)).session
-              )
+    # Configure DM and users' default sessions
+    {
+      services.displayManager.gdm.enable = true;
+    }
+    (map (user: {
+      systemd.tmpfiles.settings."20-gdm-default-session" = {
+        "/run/tmpfiles/var/lib/AccountsService/users/${user}".f = {
+          argument = "${lib.generators.toINI { } {
+            User = {
+              Session = toString (
+                builtins.tail (
+                  lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json)).session
+                )
+              );
+              SystemAccount = false;
+            }
+            // (
+              let
+                pic = ./${user}/face.png;
+              in
+              if builtins.pathExists pic then { Icon = "${pic}"; } else { }
             );
-            SystemAccount = false;
-          }
-          // (
-            let
-              pic = ./${user}/face.png;
-            in
-            if builtins.pathExists pic then { Icon = "${pic}"; } else { }
-          );
-        }}";
+          }}";
+        };
+        "/var/lib/AccountsService/users/${user}"."L+" = {
+          argument = "/run/tmpfiles/var/lib/AccountsService/users/${user}";
+        };
       };
-      "/var/lib/AccountsService/users/${user}"."L+" = {
-        argument = "/run/tmpfiles/var/lib/AccountsService/users/${user}";
-      };
-    }) cfg.usersList
-  );
-}
-// (lib.foldl (acc: elem: acc // elem) { } (
-  map (
-    user:
-    let
-      __session = lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json))
-      .session;
-      sessionType = (builtins.head __session);
-      session = toString (builtins.tail __session);
-    in
-    assert sessionType == "co" || sessionType == "de";
-    if sessionType == "co" then
-      {
-        programs.${session}.enable = true;
-      }
-    else if sessionType == "de" then
-      { services.desktopManager.${session}.enable = true; }
-    else
-      { }
-  ) cfg.usersList
-))
+    }) cfg.usersList)
+    (map (
+      user:
+      let
+        __session = lib.splitString ":" (builtins.fromJSON (builtins.readFile ./${user}/about.json))
+        .session;
+        sessionType = (builtins.head __session);
+        session = toString (builtins.tail __session);
+      in
+      assert sessionType == "co" || sessionType == "de";
+      if sessionType == "co" then
+        {
+          programs.${session}.enable = true;
+        }
+      else if sessionType == "de" then
+        { services.desktopManager.${session}.enable = true; }
+      else
+        { }
+    ) cfg.usersList)
+  ]
+)
