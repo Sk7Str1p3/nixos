@@ -21,5 +21,10 @@
 
   flake-file.inputs = import ./inputs { inherit lib; };
   flake-file.outputs = "inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ./flake";
-  flake-file.description = "A very basic flake";
+  flake-file.description = "SkyOS :: Ultimate NixOS flake";
+  flake-file.do-not-edit = ''
+    # Generated using github:vic/flake-file.
+    # This file is not supposed to be edited manually.
+    # Run `nix run .#write-flake` to regenerate it
+  '';
 }

@@ -1,7 +1,8 @@
-# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
-# Use `nix run .#write-flake` to regenerate it.
+# Generated using github:vic/flake-file.
+# This file is not supposed to be edited manually.
+# Run `nix run .#write-flake` to regenerate it
 {
-  description = "A very basic flake";
+  description = "SkyOS :: Ultimate NixOS flake";
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ./flake;
 
