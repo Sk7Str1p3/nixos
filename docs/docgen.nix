@@ -7,7 +7,7 @@
 stdenvNoCC.mkDerivation {
   name = "SkyOS-book";
   src = ./.;
-  buildInputs = [
+  nativeBuildInputs = [
     mdbook
     nixdoc
   ];
