@@ -15,7 +15,7 @@
   > Then accessing inputs in repl, remove {class}, so instead of calling e.g. `flake.inputs.core.nixpkgs`,
   > you call `flake.inputs.nixpkgs`.
 */
-lib.foldl' (acc: value: acc // value) { } (
+lib.foldl' (acc: value: lib.recursiveUpdate acc value) { } (
   map (file: import ./${file}) (
     builtins.filter (name: name != "default.nix") (builtins.attrNames (builtins.readDir ./.))
   )
