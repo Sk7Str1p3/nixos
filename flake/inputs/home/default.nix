@@ -1,7 +1,7 @@
-# Home inputs
+# User inputs
 
 /**
-  Inputs providing modules or packages for user configuration.
+  Inputs providing modules or packages for user configurations. Check next chapters to learn more.
 */
 {
   /**
