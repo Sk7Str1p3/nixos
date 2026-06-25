@@ -3,7 +3,7 @@
 /**
   Inputs providing modules or packages for user configurations. Check next chapters to learn more.
 */
-{
+{ ... }: {
   /**
     System for managing a user environment.
     Allows declarative configuration of user specific (non-global) packages and dotfiles.

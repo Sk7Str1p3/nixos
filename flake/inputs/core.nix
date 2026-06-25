@@ -4,6 +4,7 @@
   Essential inputs that form
   the foundation of the NixOS configuration
 */
+{ ... }:
 {
   /**
     The Core of NixOS, providing packages and modules.

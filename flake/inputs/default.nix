@@ -16,7 +16,7 @@
 */
 { lib, ... }:
 lib.foldl' (acc: value: lib.recursiveUpdate acc value) { } (
-  map (file: import ./${file}) (
+  map (file: import ./${file} { inherit lib; }) (
     builtins.filter (name: name != "default.nix") (builtins.attrNames (builtins.readDir ./.))
   )
 )
