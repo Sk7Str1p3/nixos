@@ -75,6 +75,8 @@ lib.foldl' (acc: obj: lib.recursiveUpdate acc obj) { } (
     }
     (map (user: {
       home-manager.users.${user} = {
+        nixpkgs.config.allowUnfree = true;
+
         imports = [
           ./${user}/modules
 
