@@ -12,4 +12,10 @@
   niri = {
     url = "github:sodiboo/niri-flake";
   };
+  /**
+    Spotify wrapper (spicetify) with better customization
+  */
+  spotify = {
+    url = "github:Gerg-L/spicetify-nix";
+  };
 }

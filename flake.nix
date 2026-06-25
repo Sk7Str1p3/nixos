@@ -14,6 +14,7 @@
     niri.url = "github:sodiboo/niri-flake";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     sops-nix.url = "github:mic92/sops-nix";
+    spotify.url = "github:Gerg-L/spicetify-nix";
     stylix.url = "github:nix-community/stylix";
   };
 }
