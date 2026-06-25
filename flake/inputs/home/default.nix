@@ -3,7 +3,8 @@
 /**
   Inputs providing modules or packages for user configurations. Check next chapters to learn more.
 */
-{ ... }: {
+{ lib, ... }:
+{
   /**
     System for managing a user environment.
     Allows declarative configuration of user specific (non-global) packages and dotfiles.
@@ -17,12 +18,9 @@
   stylix = {
     url = "github:nix-community/stylix";
   };
-
-  /**
-    Flake for configuring Niri.
-    Used because home-manager does not support Niri yet.
-  */
-  niri = {
-    url = "github:sodiboo/niri-flake";
-  };
 }
+// lib.foldl' (acc: value: lib.recursiveUpdate acc value) { } (
+  map (file: import ./${file} { inherit lib; }) (
+    builtins.filter (name: name != "default.nix") (builtins.attrNames (builtins.readDir ./.))
+  )
+)
